@@ -4,6 +4,7 @@ import java.util.stream.IntStream;
 
 public class TimSort {
     public static int MIN_RUN = 32;
+    public static int GALLOP_PARAM = 7;
     public static boolean howSort = false;
 
     public static void calculateMinRun(int size) {
@@ -41,19 +42,27 @@ public class TimSort {
         int len1 = middle - left + 1, len2 = right - middle;
         int[] leftArr = new int[len1];
         int[] rightArr = new int[len2];
+        int countGallop = 0;
         System.arraycopy(arr, left, leftArr, 0, len1);
         System.arraycopy(arr, middle + 1, rightArr, 0, len2);
         int i = 0, j = 0, k = left;
         while (i < len1 && j < len2) {
-            if (leftArr[i] <= rightArr[j]) {
-                arr[k] = leftArr[i];
-                i++;
+            if (countGallop == GALLOP_PARAM) {
+                if (leftArr[i] <= rightArr[j]) {
+                    arr[k++] = leftArr[i++];
+                    if (i < len1) arr[k++] = leftArr[i++];
+                } else {
+                    i -= 2;
+                    k -= 2;
+                    countGallop = 0;
+                }
+            } else if (leftArr[i] <= rightArr[j]) {
+                arr[k++] = leftArr[i++];
+                countGallop++;
             } else {
-                arr[k] = rightArr[j];
-                j++;
+                arr[k++] = rightArr[j++];
+                countGallop = 0;
             }
-
-            k++;
         }
         while (i < len1) {
             arr[k] = leftArr[i];
@@ -69,10 +78,12 @@ public class TimSort {
 
     public static void timSort(int[] arr) {
         calculateMinRun(arr.length);
+        // Делим на последовательности RUN
         for (int start = 0; start < arr.length; start += MIN_RUN) {
             int end = Math.min(start + MIN_RUN - 1, arr.length - 1);
             insertionSort(arr, start, end);
         }
+        // doubleSize для взятия двух последовательностей RUN
         int size = MIN_RUN, doubleSize;
         while (size < arr.length) {
             doubleSize = 2 * size;
@@ -86,7 +97,7 @@ public class TimSort {
     }
 
     public static void main(String[] args) {
-        int[] randomIntsArray = IntStream.generate(() -> new Random().nextInt(1000)).limit(10000).toArray();
+        int[] randomIntsArray = IntStream.generate(() -> new Random().nextInt(1000)).limit(1000).toArray();
         System.out.println(Arrays.toString(randomIntsArray));
         long startTime = System.nanoTime();
         timSort(randomIntsArray);
