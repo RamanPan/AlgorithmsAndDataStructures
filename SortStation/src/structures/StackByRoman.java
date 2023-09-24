@@ -34,4 +34,12 @@ public class StackByRoman<T> {
     public boolean isEmpty() {
         return top == -1;
     }
+
+    @Override
+    public String toString() {
+        return "StackByRoman{" +
+                "arr=" + arr +
+                ", top=" + top +
+                '}';
+    }
 }
