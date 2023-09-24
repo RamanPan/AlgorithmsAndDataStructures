@@ -18,6 +18,12 @@ public class ArrayListByRoman<T> {
         return (T) array[index];
     }
 
+    public boolean contains(T object) {
+        for (int i = 0; i < pointer; ++i) {
+            if (get(i).equals(object)) return true;
+        }
+        return false;
+    }
 
     public void remove(int index) {
         for (int i = index; i < pointer; i++)

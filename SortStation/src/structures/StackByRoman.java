@@ -14,6 +14,10 @@ public class StackByRoman<T> {
         top++;
     }
 
+    public T getTopElement() {
+        return isEmpty() ? null : arr.get(top);
+    }
+
     public T pop() {
         T result = null;
         if (!isEmpty()) {
