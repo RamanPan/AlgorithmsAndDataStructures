@@ -1,13 +1,18 @@
-import structures.ArrayListByRoman;
-
-import java.lang.reflect.Array;
+import structures.StackByRoman;
 
 public class SortStationByRoman {
-    private final String FUNCTIONS = "cos,sin";
-    private final String OPERATORS = "+-*/^()";
-    private final String SEPARATOR = ",";
+    private static final String FUNCTIONS = "cossin";
+    private static final String OPERATORS = "+-*/^()";
+    private static final String SEPARATOR = ",";
 
-    public Priority getPriority(String token) {
+    private static int countOpenBracket = 0;
+
+    private SortStationByRoman() {
+    }
+
+    private static StackByRoman<String> stackOperations = new StackByRoman<>();
+
+    private static Priority getPriority(String token) {
         return switch (token) {
             case "+", "-" -> Priority.LOW;
             case "*", "/" -> Priority.MEDIUM;
@@ -16,12 +21,32 @@ public class SortStationByRoman {
         };
     }
 
-    public String doSorting(String statement) {
+    public static String doSorting(String statement) {
         StringBuilder result = new StringBuilder();
         String[] tokens = statement.split(" ");
         for (int i = 0; i < tokens.length; ++i) {
-//            if (tokens[i].)
+            String token = tokens[i];
+            if (token.matches("[0-9]+")) result.append(token).append(" ");
+            else if (OPERATORS.contains(token)) {
+                if (token.equals("(")) {
+                    countOpenBracket++;
+                    stackOperations.push(token);
+                } else if (token.equals(")")) {
+                    while (!stackOperations.getTopElement().equals("(")) {
+                        result.append(stackOperations.pop()).append(" ");
+                    }
+                    stackOperations.pop();
+                    if (stackOperations.getTopElement() != null && FUNCTIONS.contains(stackOperations.getTopElement()))
+                        result.append(stackOperations.pop()).append(" ");
+                    countOpenBracket--;
+                } else if (!stackOperations.isEmpty() && getPriority(token).equals(getPriority(stackOperations.getTopElement()))) {
+                    result.append(stackOperations.pop()).append(" ");
+                    stackOperations.push(token);
+                } else stackOperations.push(token);
+            } else if (FUNCTIONS.contains(token)) stackOperations.push(token);
+
         }
+        while (!stackOperations.isEmpty()) result.append(stackOperations.pop()).append(" ");
         return result.toString();
     }
 
