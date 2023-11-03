@@ -1,6 +1,7 @@
 package trees;
 
 import structures.ArrayListByRoman;
+import structures.LinkedListByRoman;
 import structures.StackByRoman;
 
 public class AvlTree<T extends Comparable<T>> {
@@ -113,11 +114,11 @@ public class AvlTree<T extends Comparable<T>> {
         return root;
     }
 
-    public ArrayListByRoman<T> prefixTraverse() {
-        return prefixTraverse(root, new ArrayListByRoman<>());
+    public ArrayListByRoman<T> directTraverse() {
+        return directTraverse(root, new ArrayListByRoman<>());
     }
 
-    public ArrayListByRoman<T> prefixTraverse(AvlNode<T> node, ArrayListByRoman<T> array) {
+    public ArrayListByRoman<T> directTraverse(AvlNode<T> node, ArrayListByRoman<T> array) {
         if (node == null)
             return null;
 
@@ -133,61 +134,72 @@ public class AvlTree<T extends Comparable<T>> {
         return array;
     }
 
-    public ArrayListByRoman<T> infixTraverse() {
-        return infixTraverse(root, new ArrayListByRoman<>());
+    public ArrayListByRoman<T> centeredTraverse() {
+        return centeredTraverse(root, new ArrayListByRoman<>());
     }
 
-    public ArrayListByRoman<T> infixTraverse(AvlNode<T> node, ArrayListByRoman<T> array) {
-        if (node == null)
-            return null;
+    public ArrayListByRoman<T> centeredTraverse(AvlNode<T> node, ArrayListByRoman<T> array) {
 
-        StackByRoman<AvlNode<T>> treeNodeStackByRoman = new StackByRoman<>();
-        treeNodeStackByRoman.push(node);
-        while (!treeNodeStackByRoman.isEmpty()) {
-            AvlNode<T> n = treeNodeStackByRoman.pop();
-            if (n.rightChild != null) treeNodeStackByRoman.push(n.rightChild);
-            array.add(n.data);
-            if (n.leftChild != null) treeNodeStackByRoman.push(n.leftChild);
+        StackByRoman<AvlNode<T>> stack = new StackByRoman<>();
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.leftChild;
+            }
+            node = stack.pop();
+            array.add(node.data);
+            node = node.rightChild;
         }
-
         return array;
     }
 
-    public ArrayListByRoman<T> postfixTraverse() {
-        return postfixTraverse(root, new ArrayListByRoman<>());
+    public ArrayListByRoman<T> reverseTraverse() {
+        return reverseTraverse(root, new ArrayListByRoman<>());
     }
 
-    public ArrayListByRoman<T> postfixTraverse(AvlNode<T> node, ArrayListByRoman<T> array) {
+    public ArrayListByRoman<T> reverseTraverse(AvlNode<T> node, ArrayListByRoman<T> array) {
         if (node == null)
             return null;
+        StackByRoman<AvlNode<T>> stack = new StackByRoman<>();
+        StackByRoman<AvlNode<T>> resultStack = new StackByRoman<>();
+        stack.push(node);
+        while (!stack.isEmpty()) {
+            AvlNode<T> current = stack.pop();
+            resultStack.push(current);
+            if (current.leftChild != null) {
+                stack.push(current.leftChild);
+            }
 
-        StackByRoman<AvlNode<T>> treeNodeStackByRoman = new StackByRoman<>();
-        treeNodeStackByRoman.push(node);
-        while (!treeNodeStackByRoman.isEmpty()) {
-            AvlNode<T> n = treeNodeStackByRoman.pop();
-            if (n.rightChild != null) treeNodeStackByRoman.push(n.rightChild);
-            if (n.leftChild != null) treeNodeStackByRoman.push(n.leftChild);
-            array.add(n.data);
+            if (current.rightChild != null) {
+                stack.push(current.rightChild);
+            }
         }
-
+        while (!resultStack.isEmpty()) {
+            array.add(resultStack.pop().data);
+        }
         return array;
     }
 
-    public ArrayListByRoman<T> breadthTraverse(AvlNode<T> node) {
+    public ArrayListByRoman<T> breadthTraverse() {
+        return breadthTraverse(root);
+    }
+
+    private ArrayListByRoman<T> breadthTraverse(AvlNode<T> node) {
         ArrayListByRoman<T> values = new ArrayListByRoman<>();
-        StackByRoman<AvlNode<T>> queue = new StackByRoman<>();
-        queue.push(node);
-
-        while (queue.getCount() > 0) {
-            AvlNode<T> queuedNode = queue.pop();
-            values.add(queuedNode.getData());
-
-            if (queuedNode.getLeftChild() != null) queue.push(queuedNode.getLeftChild());
-            if (queuedNode.getRightChild() != null) queue.push(queuedNode.getRightChild());
+        ArrayListByRoman<AvlNode<T>> queue = new ArrayListByRoman<>();
+        queue.add(node);
+        while (!queue.isEmpty()) {
+            AvlNode<T> current = queue.get(0);
+            queue.remove(0);
+            values.add(current.data);
+            if (current.leftChild != null)
+                queue.add(current.leftChild);
+            if (current.rightChild != null)
+                queue.add(current.rightChild);
         }
 
         return values;
     }
 
-    
+
 }

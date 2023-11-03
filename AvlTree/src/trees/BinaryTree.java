@@ -58,23 +58,22 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    public ArrayListByRoman<T> prefixTraverse() {
-        return prefixTraverse(root, new ArrayListByRoman<>());
+    public ArrayListByRoman<T> directTraverse() {
+        return directTraverse(root, new ArrayListByRoman<>());
     }
 
-    public ArrayListByRoman<T> prefixTraverse(TreeNode<T> node, ArrayListByRoman<T> array) {
+    private ArrayListByRoman<T> directTraverse(TreeNode<T> node, ArrayListByRoman<T> array) {
         if (node == null)
             return null;
         array.add(node.getData());
-        prefixTraverse(node.getLeftChild(), array);
-        prefixTraverse(node.getRightChild(), array);
-
+        directTraverse(node.getLeftChild(), array);
+        directTraverse(node.getRightChild(), array);
         return array;
     }
 
     public AvlTree<T> toAVL() {
         AvlTree<T> avl = new AvlTree<>();
-        ArrayListByRoman<T> nodes = prefixTraverse();
+        ArrayListByRoman<T> nodes = directTraverse();
         for (int i = 0; i < nodes.size(); ++i)
             avl.insert(nodes.get(i));
         return avl;

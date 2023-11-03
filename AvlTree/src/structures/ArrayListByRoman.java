@@ -33,9 +33,7 @@ public class ArrayListByRoman<T> {
     public boolean add(T element) {
         if (this.size + 1 > this.data.length) {
             Object[] newArray = new Object[(int) Math.round((this.size + 1) * INCREMENTATION_COEFFICIENT)];
-
             System.arraycopy(data, 0, newArray, 0, data.length);
-
             newArray[this.size] = element;
             ++this.size;
             this.data = newArray;
@@ -105,5 +103,23 @@ public class ArrayListByRoman<T> {
         Arrays.fill(data, null);
         this.data = new Object[DEFAULT_CAPACITY];
         this.size = 0;
+    }
+
+    public void showElements() {
+        for (int i = 0; i < size; ++i) {
+            if (i != size - 1) {
+                System.out.printf(data[i] + ", ");
+            } else {
+                System.out.printf(data[i] + "\n");
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayListByRoman{" +
+                "data=" + Arrays.toString(data) +
+                ", size=" + size +
+                '}';
     }
 }
