@@ -86,14 +86,6 @@ public class BinaryTree<T extends Comparable<T>> {
         return bt;
     }
 
-    public static BinaryTree<Integer> fromFile(Path filePath) throws IOException, InvalidTreeSequence {
-        return fromString(Files
-                .readString(filePath)
-                .replace('\n', ' ')
-                .replace('\r', ' ')
-        );
-    }
-
     private static TreeNode<Integer> nodeBuilder(String sequence, TreeNode<Integer> parent)
             throws InvalidTreeSequence, NumberFormatException {
         TreeNode<Integer> node = new TreeNode<>(null);

@@ -39,4 +39,14 @@ public class AvlNode<T> {
     public AvlNode<T> getRightChild() {
         return rightChild;
     }
+
+    @Override
+    public String toString() {
+        return "AvlNode{" +
+                "data=" + data +
+                ", height=" + height +
+                ", leftChild=" + leftChild +
+                ", rightChild=" + rightChild +
+                '}';
+    }
 }

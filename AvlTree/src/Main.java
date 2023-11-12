@@ -32,6 +32,17 @@ public class Main {
         binaryTree.directTraverse().showElements();
         System.out.println("АВЛ-дерево");
         printTree.printAvlTree(avlTree.getRoot());
+        avlTree.insert(5);
+        avlTree.insert(9);
+        System.out.println("Вставка элементов в АВЛ-дереве");
+        printTree.printAvlTree(avlTree.getRoot());
+        avlTree.remove(5);
+        avlTree.remove(9);
+        System.out.println("Удаление элементов в АВЛ-дереве");
+        printTree.printAvlTree(avlTree.getRoot());
+        System.out.println("Поиск");
+        System.out.println(avlTree.find(7));
+        System.out.println(avlTree.find(10));
         System.out.println("Прямой обход");
         avlTree.directTraverse().showElements();
         System.out.println("Центрированный обход");
