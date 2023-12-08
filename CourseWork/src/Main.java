@@ -13,9 +13,9 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        Graph firstGraph = GraphBuilder.fromString(input);
-        Graph secondGraph = GraphBuilder.fromFile(Path.of("resources\\test.txt"));
-        Graph thirdGraph = GraphBuilder.fromFile(Path.of("resources\\difficultTest.txt"));
+        Graph firstGraph = GraphBuilder.createGraphFromString(input);
+        Graph secondGraph = GraphBuilder.createGraphFromFile(Path.of("resources\\test.txt"));
+        Graph thirdGraph = GraphBuilder.createGraphFromFile(Path.of("resources\\difficultTest.txt"));
         System.out.println("Для первого графа");
         System.out.println(MinimalSpanningTreeFinder.mstKruskal(firstGraph.getEdges()).kruskalResult());
         System.out.println("Для второго графа");

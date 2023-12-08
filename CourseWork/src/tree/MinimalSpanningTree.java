@@ -23,15 +23,8 @@ public class MinimalSpanningTree {
 
     public void addEdge(Edge e) {
         edges.add(e);
-        linkEdges();
     }
 
-    /**
-     * Пытается связать дерево (отсортировать вершины в правильном порядке)
-     */
-    public void linkEdges() {
-        INSERTION_SORT.sort(edges, (a, b) -> a.getU() == b.getV() ? -1 : a.getV() == b.getU() ? 1 : 0);
-    }
 
     public void setEdges(ArrayListByRoman<Edge> edges) {
         this.edges = edges;
@@ -46,12 +39,12 @@ public class MinimalSpanningTree {
 
     public String kruskalResult() {
         INSERTION_SORT.sort(edges, Comparator.comparing(e -> e.getUKey() + " " + e.getVKey()));
-        String[] resultList = new String[edges.size() + 1];
+        StringBuilder builder = new StringBuilder();
         for (int i = 0, l = edges.size(); i < l; i++) {
             Edge e = edges.get(i);
-            resultList[i] = e.getUKey() + " " + e.getVKey();
+            builder.append(e.getUKey()).append(" ").append(e.getVKey()).append(System.lineSeparator());
         }
-        resultList[edges.size()] = Integer.toString(getWeight());
-        return String.join(System.lineSeparator(), resultList);
+        builder.append(getWeight());
+        return builder.toString();
     }
 }

@@ -15,7 +15,6 @@ public class InsertionSortByRoman<T> {
         for (var i = 1; i < n; ++i) {
             T key = array.get(fromIndex + i);
             int j = i - 1;
-
             while (j >= 0 && comparator.compare(array.get(fromIndex + j), key) > 0) {
                 array.set(fromIndex + j + 1, array.get(fromIndex + j));
                 --j;

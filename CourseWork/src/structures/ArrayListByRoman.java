@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 public class ArrayListByRoman<T> {
     public static final double INCREMENTATION_COEFFICIENT = 1.5D;
     public static final int DEFAULT_CAPACITY = 10;
-    private transient Object[] data;
+    private Object[] data;
     private int size = 0;
 
     public ArrayListByRoman() {
