@@ -3,14 +3,12 @@ import structures.StackByRoman;
 public class SortStationByRoman {
     private static final String FUNCTIONS = "cossin";
     private static final String OPERATORS = "+-*/^()";
-    private static final String SEPARATOR = ",";
-
     private static int countOpenBracket = 0;
 
     private SortStationByRoman() {
     }
 
-    private static StackByRoman<String> stackOperations = new StackByRoman<>();
+    private static final StackByRoman<String> stackOperations = new StackByRoman<>();
 
     private static Priority getPriority(String token) {
         return switch (token) {
@@ -24,8 +22,7 @@ public class SortStationByRoman {
     public static String doSorting(String statement) {
         StringBuilder result = new StringBuilder();
         String[] tokens = statement.split(" ");
-        for (int i = 0; i < tokens.length; ++i) {
-            String token = tokens[i];
+        for (String token : tokens) {
             if (token.matches("[0-9]+")) result.append(token).append(" ");
             else if (OPERATORS.contains(token)) {
                 if (token.equals("(")) {
