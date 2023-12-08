@@ -1,47 +1,45 @@
 package structures;
 
 public class StackByRoman<T> {
-    private Node<T> head;
-    private int count = 0;
+    private ArrayListByRoman<T> arr;
+    private int top;
 
-    public T push( T item) {
-        if (head == null) {
-            head = new Node<>(item, null);
-        } else {
-            head = new Node<>(item, head);
-        }
-        ++count;
-        return item;
+    public StackByRoman() {
+        arr = new ArrayListByRoman<>();
+        top = -1;
+    }
+
+    public void push(T value) {
+        arr.add(value);
+        top++;
+    }
+
+    public T getTopElement() {
+        return isEmpty() ? null : arr.get(top);
     }
 
     public T pop() {
-        if (head == null)
-            return null;
-        T data = head.data;
-        head = head.next;
-        --count;
-        return data;
+        T result = null;
+        if (!isEmpty()) {
+            result = arr.get(top);
+            arr.remove(top--);
+        }
+        return result;
     }
 
-    public T peek() {
-        return head != null ? head.data : null;
+    public int size() {
+        return top + 1;
     }
 
     public boolean isEmpty() {
-        return head == null;
+        return top == -1;
     }
 
-    private static class Node<T> {
-        final T data;
-        Node<T> next;
-
-        public Node(T data, Node<T> next) {
-            this.data = data;
-            this.next = next;
-        }
-    }
-
-    public int getCount() {
-        return count;
+    @Override
+    public String toString() {
+        return "StackByRoman{" +
+                "arr=" + arr +
+                ", top=" + top +
+                '}';
     }
 }

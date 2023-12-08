@@ -1,7 +1,6 @@
 package trees;
 
 import structures.ArrayListByRoman;
-import structures.LinkedListByRoman;
 import structures.StackByRoman;
 
 public class AvlTree<T extends Comparable<T>> {
